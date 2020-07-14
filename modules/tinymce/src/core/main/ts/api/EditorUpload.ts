@@ -135,7 +135,14 @@ const EditorUpload = function (editor: Editor): EditorUpload {
             blobCache.removeByUri(image.src);
             replaceImageUriInView(image, uploadInfo.url);
           } else if (uploadInfo.error) {
-            ErrorReporter.uploadError(editor, uploadInfo.error);
+            if (uploadInfo.error.options.remove) {
+              editor.undoManager.transact(() => {
+                editor.dom.remove(image);
+                blobCache.removeByUri(image.src);
+              });
+            }
+
+            ErrorReporter.uploadError(editor, uploadInfo.error.error);
           }
 
           return {
