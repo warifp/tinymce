@@ -136,10 +136,14 @@ const EditorUpload = function (editor: Editor): EditorUpload {
             replaceImageUriInView(image, uploadInfo.url);
           } else if (uploadInfo.error) {
             if (uploadInfo.error.options.remove) {
-              editor.undoManager.transact(() => {
-                editor.dom.remove(image);
-                blobCache.removeByUri(image.src);
-              });
+              if (editor.hasPlugin('rtc')) {
+                console.log('Could not erase image due to RTC plugin'); // eslint-disable-line no-console
+              } else {
+                editor.undoManager.transact(() => {
+                  editor.dom.remove(image);
+                  blobCache.removeByUri(image.src);
+                });
+              }
             }
 
             ErrorReporter.uploadError(editor, uploadInfo.error.error);
