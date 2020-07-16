@@ -43,7 +43,7 @@ export interface UploadResult {
   status: boolean;
   error?: {
     options: UploadFailureOptions;
-    error: string;
+    message: string;
   };
 }
 
@@ -108,12 +108,12 @@ export function Uploader(uploadStatus, settings): Uploader {
     status: true
   });
 
-  const handlerFailure = (blobInfo: BlobInfo, error: string, options: UploadFailureOptions): UploadResult => ({
+  const handlerFailure = (blobInfo: BlobInfo, message: string, options: UploadFailureOptions): UploadResult => ({
     url: '',
     blobInfo,
     status: false,
     error: {
-      error,
+      message,
       options
     }
   });

@@ -148,7 +148,7 @@ const EditorUpload = function (editor: Editor): EditorUpload {
               }
             }
 
-            ErrorReporter.uploadError(editor, uploadInfo.error.error);
+            ErrorReporter.uploadError(editor, uploadInfo.error.message);
           }
 
           return {
