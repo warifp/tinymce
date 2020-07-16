@@ -14,6 +14,7 @@ import UploadStatus from '../file/UploadStatus';
 import Editor from './Editor';
 import { BlobCache, BlobInfo } from './file/BlobCache';
 import * as Settings from './Settings';
+import * as Rtc from '../Rtc';
 
 /**
  * Handles image uploads, updates undo stack and patches over various internal functions.
@@ -136,7 +137,8 @@ const EditorUpload = function (editor: Editor): EditorUpload {
             replaceImageUriInView(image, uploadInfo.url);
           } else if (uploadInfo.error) {
             if (uploadInfo.error.options.remove) {
-              if (editor.hasPlugin('rtc')) {
+              if (Rtc.isRtc(editor)) {
+                // To be replaced by RTC API to mirror DOM changes when such is implemented.
                 console.log('Could not erase image due to RTC plugin'); // eslint-disable-line no-console
               } else {
                 editor.undoManager.transact(() => {
